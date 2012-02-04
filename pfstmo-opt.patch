@@ -1,0 +1,35 @@
+--- pfstmo-1.4/configure.ac.orig	2009-02-23 20:10:23.000000000 +0100
++++ pfstmo-1.4/configure.ac	2012-02-04 13:46:34.797913050 +0100
+@@ -37,13 +37,12 @@
+ 		AC_HELP_STRING([--enable-debug],
+ 				 [Enable debug symbols and asserts]),
+ 		 [if test "$enable_debug" = "yes" ; then
+-                     temp_CXXFLAGS=`echo $CXXFLAGS | sed "s/-O./ /; s/-g//"`
++                     temp_CXXFLAGS=`echo $CXXFLAGS | sed "s/-O[0-9]/ /"`
+ 		     CXXFLAGS="-g $temp_CXXFLAGS"
+ 		     AC_DEFINE([DEBUG])
+ 		  fi],
+                   [enable_debug="no"
+-                     temp_CXXFLAGS=`echo $CXXFLAGS | sed "s/-O./ /; s/-g//"`
+-   	             CXXFLAGS="-O3 $temp_CXXFLAGS"
++   	             CXXFLAGS="-O3 $CXXFLAGS"
+                      AC_DEFINE(NDEBUG, 1, [Disable assertion checks])
+ 
+ 
+@@ -58,7 +57,7 @@
+ 
+                      AC_MSG_CHECKING([for $CC optimization options])
+                      temp_CXXFLAGS="$CXXFLAGS"
+-                     CXXFLAGS="$CXXFLAGS -ffast-math -ftree-vectorize -mfpmath=sse,387"
++                     CXXFLAGS="$CXXFLAGS -ffast-math -ftree-vectorize"
+                      AC_COMPILE_IFELSE([
+ /* nothing */
+                        ], [AC_MSG_RESULT([yes])], [CXXFLAGS="$temp_CXXFLAGS"; AC_MSG_RESULT([no])])
+@@ -76,7 +75,6 @@
+ dnl System detection and configuration
+ dnl
+ 
+-AX_GCC_ARCHFLAG($enable_portable, [CXXFLAGS="$CXXFLAGS $ax_cv_gcc_archflag"])
+ 
+ dnl PFS tools library - base for input sources
+ AC_MSG_CHECKING([for pfs library])
