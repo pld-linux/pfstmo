@@ -1,17 +1,18 @@
+# NOTE: obsolete, included in pfstools 2.x
 Summary:	PFS tone mapping operators
 Summary(pl.UTF-8):	PFS tone mapping operators - operatory odwzorowania tonów (kompresji dynamiki)
 Name:		pfstmo
-Version:	1.4
-Release:	1
+Version:	1.5
+Release:	0.1
 License:	GPL v2+
 Group:		Applications/Graphics
-Source0:	http://downloads.sourceforge.net/pfstools/%{name}-%{version}.tar.gz
-# Source0-md5:	90409a9adda70f59001c04cafcdab8d6
-Patch0:		%{name}-c++.patch
+Source0:	https://downloads.sourceforge.net/pfstools/%{name}-%{version}.tar.gz
+# Source0-md5:	f0dc0baee2be66b1eedf77a45864c0e9
 Patch1:		%{name}-opt.patch
-URL:		http://pfstools.sourceforge.net/pfstmo.html
-BuildRequires:	autoconf
+URL:		https://pfstools.sourceforge.net/pfstmo.html
+BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake >= 1.6
+BuildRequires:	fftw3-devel >= 3.0
 BuildRequires:	fftw3-single-devel >= 3.0
 BuildRequires:	gsl-devel
 BuildRequires:	libstdc++-devel
@@ -37,7 +38,6 @@ do wygodnego przetwarzania obrazów statycznych i animacji.
 
 %prep
 %setup -q
-%patch -P0 -p1
 %patch -P1 -p1
 
 %build
@@ -46,6 +46,7 @@ do wygodnego przetwarzania obrazów statycznych i animacji.
 %{__autoconf}
 %{__autoheader}
 %{__automake}
+CXXFLAGS="%{rpmcxxflags} -std=c++98"
 %configure \
 	%{?debug:--enable-debug}
 %{__make}
